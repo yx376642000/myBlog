@@ -76,6 +76,6 @@ mongoose.connect("mongodb://localhost:27017/Blog",function (err) {
     } else {
         console.log("数据库链接成功");
         //监听http请求
-        app.listen(8081);
+        app.listen(80);
     }
 });
