@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>个人博客模板（寻梦）</title>
+  <meta name="keywords" content="个人博客模板,博客模板" />
+  <meta name="description" content="寻梦主题的个人博客模板，优雅、稳重、大气,低调。" />
+  <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="/public/css/base.css" rel="stylesheet">
+
+  {% block css %}
+
+  {% endblock %}
+
+  <script src="/public/js/jquery-1.10.1.js"></script>
+  <!--[if lt IE 9]>
+  <script src="/public/js/modernizr.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+  <div id="logo"><a href="/"></a></div>
+  <nav class="topnav" id="topnav">
+    <a href="/"><span>首页</span><span class="en">Protal</span></a>
+    <a href="/about"><span>关于我</span><span class="en">About</span></a>
+    {% for category in categories%}
+    <a href="{{category.index+'?category=' + category.id}}"><span>{{category.name}}</span><span class="en">{{category.englishName}}</span></a>
+    {% endfor%}
+    <a href="/comment"><span>留言板</span><span class="en">Guestbook</span></a>
+  </nav>
+</header>
+{% block banner %}
+{% endblock %}
+
+<article class="blogs">
+  {% block content %}
+
+  {% endblock %}
+  <aside class="right">
+
+    {% block user %}
+
+    {% endblock %}
+
+    <div class="news">
+      <div class="blank"></div>
+      <div class="blank"></div>
+
+      <h3>
+        <p>最新<span>文章</span></p>
+      </h3>
+      <ul class="rank">
+        {% for description in news %}
+        <li><a href="/new?id={{description.id}}" title="{{description.description}}" target="_blank">{{description.title}}</a></li>
+        {% endfor %}
+      </ul>
+      <h3 class="ph">
+        <p>点击<span>排行</span></p>
+      </h3>
+      <ul class="paih">
+        {% for rank in ranks %}
+        <li><a href="/new?id={{rank.id}}" title="{{rank.description}}" target="_blank">{{rank.title}}</a></li>
+        {% endfor %}
+      </ul>
+      <h3 class="links">
+        <p>友情<span>链接</span></p>
+      </h3>
+      <ul class="website">
+        <li><a href="/">个人博客</a></li>
+        <li><a href="/">谢泽文个人博客</a></li>
+        <li><a href="/">3DST技术网</a></li>
+        <li><a href="/">思衡网络</a></li>
+      </ul>
+    </div>
+    <a href="javascript:;" class="weixin"></a>
+  </aside>
+</article>
+<footer>
+  <p>Design by DanceSmile <a href="http://www.miitbeian.gov.cn/" target="_blank">蜀ICP备11002373号-1</a> <a href="/">网站统计</a></p>
+</footer>
+<script src="/public/js/silder.js"></script>
+{% block js %}
+{% endblock %}
+</body>
+</html>

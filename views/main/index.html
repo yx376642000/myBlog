@@ -1,0 +1,156 @@
+{% extends "layout.html"%}
+
+{% block css %}
+<link href="/public/css/index.css" rel="stylesheet">
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+  <section class="box">
+    <ul class="texts">
+      <p>打了死结的青春，捆死一颗苍白绝望的灵魂。</p>
+      <p>为自己掘一个坟墓来葬心，红尘一梦，不再追寻。</p>
+      <p>加了锁的青春，不会再因谁而推开心门。</p>
+    </ul>
+    <div class="avatar"><a href="javascript:;"><span>希声</span></a> </div>
+  </section>
+</div>
+<!--<div class="photowall">
+  <ul class="wall_a">
+    <li><a href="/"><img src="/public/images/p01.jpg">
+      <figcaption>
+        <h2></h2>
+      </figcaption>
+    </a></li>
+    <li><a href="/"><img src="/public/images/p02.jpg">
+      <figcaption>
+        <h2></h2>
+      </figcaption>
+    </a></li>
+    <li><a href="/"><img src="/public/images/p03.jpg">
+      <figcaption>
+        <h2></h2>
+      </figcaption>
+    </a></li>
+    <li>
+      <p class="text_a"><a href="/"></a></p>
+    </li>
+    <li><a href="/"><img src="/public/images/p04.jpg">
+      <figcaption>
+        <h2> </h2>
+      </figcaption>
+    </a></li>
+    <li>
+      <p class="text_b"><a href="/"></a></p>
+    </li>
+    <li><a href="/"><img src="/public/images/p05.jpg">
+      <figcaption>
+        <h2> </h2>
+      </figcaption>
+    </a></li>
+    <li><a href="/"><img src="/public/images/p06.jpg">
+      <figcaption>
+        <h2></h2>
+      </figcaption>
+    </a></li>
+  </ul>
+</div>-->
+<!--<div class="about">
+  <ul>
+    <div id="fountainG">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </div>
+    <div class="about_girl"><span><a href="/"><img src="/public/images/girl.jpg"></a></span>
+      <p></p>
+    </div>
+    <div class="about_boy"><span><a href="/"><img src="/public/images/boy.jpg"></a></span>
+      <p></p>
+    </div>
+  </ul>
+</div>-->
+<!--<div class="blank"></div>-->
+{% endblock %}
+
+{% block content %}
+<h2 class="title_tj">
+  <p>文章<span>推荐</span></p>
+</h2>
+<div class="bloglist left">
+
+  {% for article in articles %}
+  <h3>{{article.title}}</h3>
+  <figure><img src="/public/images/001.png"></figure>
+  <ul>
+    <p>{{article.description}}</p>
+    <a href="/new?id={{article.id}}" target="_blank" class="readmore">阅读全文>></a>
+  </ul>
+  <p class="dateview">
+    <span>{{article.addTime|date("Y-m-d H:i:s",-8*60)}}</span>
+    <span>作者：{{article.user.username}}</span>
+    <span>点击量：{{article.views}}</span>
+
+  </p>
+
+  {% endfor %}
+</div>
+{% endblock %}
+
+
+{% block user %}
+<div class="top">
+  {% if userInfo._id %}
+  <ul id="userInfo">
+    <h3>
+      <p>用户<span>信息</span></p>
+    </h3>
+    {% if userInfo.isAdmin%}
+    <li>
+      <h3 class="username" style="color:orange;">{{unescape(userInfo.username)}}</h3>你好，管理员！
+      <a href="/admin" class="admin">进入管理</a>
+    </li>
+    {% else %}
+    <li><h3 class="username">{{unescape(userInfo.username)}}</h3>欢迎光临我的博客！</li>
+    {% endif %}
+
+    <li><a href="javascript:;" class="logOut">退出登录</a></li>
+
+  </ul>
+  {% else %}
+  <ul id="login">
+    <h3>
+      <p>用户<span>登录</span></p>
+    </h3>
+    <li><span>用户名：</span><input type="text" name="username"></li>
+    <li><span>密码：</span><input type="password" name="password"></li>
+    <li><span></span><a href="javascript:;">登录</a></li>
+    <li class="last" id="toReg"><a href="javascript:;">还没注册？立即注册</a></li>
+    <li class="info"><p class="message"></p></li>
+  </ul>
+
+  <ul id="register" style="display: none" >
+    <h3>
+      <p>用户<span>注册</span></p>
+    </h3>
+    <li><span>用户名：</span><input type="text" name="username"></li>
+    <li><span>密码：</span><input type="password" name="password"></li>
+    <li><span>确认密码：</span><input type="password" name="repassword"></li>
+    <li><span></span><a href="javascript:;">注册</a></li>
+    <li class="last" id="toLogin"><a href="javascript:;">注册成功，立即登录</a></li>
+    <li class="info"><p class="message"></p></li>
+  </ul>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/public/js/index.js"></script>
+{% endblock %}
