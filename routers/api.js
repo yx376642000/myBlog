@@ -84,7 +84,6 @@ router.post("/user/login",function (req,res,next) {
         username:username,
         password:password
     }).then(function (userInfo) {
-        console.log(userInfo);
         if(!userInfo){
             responseData.code=2;
             responseData.message="用户名或者密码错误";

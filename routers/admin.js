@@ -3,6 +3,8 @@ var router = express.Router();
 var User = require("../models/User");
 var Category = require("../models/Category");
 var Article = require("../models/Article");
+var Myself = require("../models/Myself");
+var Link = require("../models/Link");
 
 router.use(function (req,res,next) {
    if(!req.userInfo.isAdmin){
@@ -124,6 +126,7 @@ router.post('/category/edit',function (req,res) {
     var name = req.body.name || '';
     var englishName = req.body.englishName || '';
     var index = req.body.index || '';
+    var description = req.body.description || '';
     Category.findOne({
         _id:id
     }).then(function (category) {
@@ -135,7 +138,7 @@ router.post('/category/edit',function (req,res) {
             return Promise.reject();
         }else{
             //如果用户没有修改
-            if(name == category.name && englishName == category.englishName && index == category.index){
+            if(name == category.name && englishName == category.englishName && index == category.index && description == category.description){
                 res.render('admin/success',{
                     userInfo:req.userInfo,
                     message:"修改成功",
@@ -163,7 +166,8 @@ router.post('/category/edit',function (req,res) {
             },{
                 name:name,
                 englishName:englishName,
-                index:index
+                index:index,
+                description:description
             });
         }
     }).then(function () {
@@ -201,6 +205,7 @@ router.post("/category/add",function (req,res) {
     var name = req.body.name || '';
     var englishName = req.body.englishName || '';
     var index = req.body.index || '';
+    var description = req.body.description || '';
     if(name == '' || englishName == '' || index ==''){
         res.render("admin/error",{
             userInfo:req.userInfo,
@@ -223,7 +228,8 @@ router.post("/category/add",function (req,res) {
             return new Category({
                 name:name,
                 englishName:englishName,
-                index:index
+                index:index,
+                description:description
             }).save();
         }
     }).then(function (newCategory) {
@@ -388,7 +394,183 @@ router.get("/article/del",function (req,res) {
        })
    })
 });
+router.get('/myself/add',function (req,res) {
+   res.render("admin/myself_add",{
+       userInfo:req.userInfo
+   })
+});
+router.post("/myself/add",function (req,res,next) {
+   var webName=req.body.webName;
+   var name=req.body.myName;
+   var birth=req.body.birth;
+   var address=req.body.address;
+   var now=req.body.now;
+   var job=req.body.job;
+   var likeBook=req.body.likeBook;
+   var likeMusic=req.body.likeMusic;
+   var description=req.body.description;
+   var blogAddress=req.body.blogAddress;
+   var time=req.body.time;
+   var beian=req.body.beian;
+   return new Myself({
+       webName:webName,
+       name:name,
+       birth:birth,
+       address:address,
+       now:now,
+       job:job,
+       likeBook:likeBook,
+       likeMusic:likeMusic,
+       description:description,
+       blogAddress:blogAddress,
+       time:time,
+       beian:beian,
+   }).save().then(function () {
+       res.render('admin/success',{
+           userInfo:req.userInfo,
+           message:"保存成功",
+           url:"/admin/myself"
+       })
+   })
 
+});
+
+router.get('/myself',function (req,res,next) {
+    Myself.find().then(function (myself) {
+        res.render("admin/myself",{
+            userInfo:req.userInfo,
+            myself:myself
+        })
+    })
+});
+router.get('/myself/edit',function (req,res,next) {
+   var id = req.query.id || '';
+   Myself.findOne({
+       _id:id
+   }).then(function (myself) {
+       res.render('admin/myself_edit',{
+           userInfo:req.userInfo,
+           myself:myself
+       })
+   })
+});
+router.post("/myself/edit",function (req,res,next) {
+   var id = req.query.id || '';
+    var webName=req.body.webName;
+    var name=req.body.myName;
+    var birth=req.body.birth;
+    var address=req.body.address;
+    var now=req.body.now;
+    var job=req.body.job;
+    var likeBook=req.body.likeBook;
+    var likeMusic=req.body.likeMusic;
+    var description=req.body.description;
+    var blogAddress=req.body.blogAddress;
+    var time=req.body.time;
+    var beian=req.body.beian;
+    Myself.update({
+        _id:id
+    },{
+        webName:webName,
+        name:name,
+        birth:birth,
+        address:address,
+        now:now,
+        job:job,
+        likeBook:likeBook,
+        likeMusic:likeMusic,
+        description:description,
+        blogAddress:blogAddress,
+        time:time,
+        beian:beian,
+    }).then(function () {
+        res.render('admin/success',{
+            userInfo:req.userInfo,
+            message:"修改成功",
+            url:"/admin/myself"
+        })
+    })
+});
+
+
+
+router.get("/link/add",function (req,res,next) {
+   res.render("admin/link_add",{
+       userInfo:req.userInfo
+   })
+});
+router.post('/link/add',function (req,res,next) {
+   var name=req.body.name;
+   var link = req.body.link;
+   return new Link({
+       name:name,
+       link:link
+   }).save().then(function () {
+       res.render("admin/success",{
+           userInfo:req.userInfo,
+           message:"添加成功",
+           url:"/admin/link"
+       })
+   })
+});
+router.get("/link",function (req,res,next) {
+   Link.find().sort({_id:-1}).then(function (links) {
+       res.render('admin/links',{
+           userInfo:req.userInfo,
+           links:links
+       })
+   })
+});
+router.get('/link/edit',function (req,res,next) {
+    var id = req.query.id || '';
+
+    Link.find({
+        _id:id
+    }).then(function (link) {
+        if(!link){
+            res.render("admin/error",{
+                userInfo:req.userInfo,
+                message:"链接不存在"
+            })
+        } else {
+            res.render('admin/link_edit',{
+                userInfo:req.userInfo,
+                link:link[0]
+            })
+        }
+
+    })
+});
+router.post('/link/edit',function (req,res,next) {
+   var id=req.query.id || '';
+   var name= req.body.name;
+   var link=req.body.link;
+   Link.update({
+       _id:id
+   },{
+       name:name,
+       link:link
+   }).then(function () {
+       res.render("admin/success",{
+           userInfo:req.userInfo,
+           message:"修改成功",
+           url:"/admin/link"
+       });
+   })
+});
+router.get("/link/del",function (req,res,next) {
+    var id=req.query.id || '';
+    Link.remove({
+        _id:id
+    }).then(function () {
+        res.render("admin/success",{
+            userInfo:req.userInfo,
+            message:"删除成功",
+            url:"/admin/link"
+        })
+    })
+
+});
 
 
 

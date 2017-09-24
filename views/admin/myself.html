@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<ol class="breadcrumb">
+    <li><a href="/admin">管理首页</a></li>
+    <li>我的信息</li>
+</ol>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>网名</th>
+        <th>姓名</th>
+        <th>出生日期</th>
+
+        <th>工作</th>
+        <th>喜欢的书</th>
+        <th>喜欢的音乐</th>
+
+        <th>操作</th>
+    </tr>
+    {% for myself in myself %}
+    <tr>
+        <td>{{myself.webName}}</td>
+        <td>{{myself.name}}</td>
+        <td>{{myself.birth}}</td>
+
+        <td>{{myself.job}}</td>
+        <td>{{myself.likeBook}}</td>
+        <td>{{myself.likeMusic}}</td>
+
+        <td> <a href="/admin/myself/edit?id={{myself._id.toString()}}">修改</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+</table><table class="table table-striped table-hover">
+    <tr>
+        <th>籍贯</th>
+        <th>现居地址</th>
+        <th>域名</th>
+        <th>注册时间</th>
+        <th>备案号</th>
+    </tr>
+    {% for myself in myself %}
+    <tr>
+        <td>{{myself.address}}</td>
+        <td>{{myself.now}}</td>
+        <td>{{myself.blogAddress}}</td>
+        <td>{{myself.time}}</td>
+        <td>{{myself.beian}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>个人简介</th>
+    </tr>
+    {% for myself in myself %}
+    <tr>
+        <td>{{myself.description}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock%}

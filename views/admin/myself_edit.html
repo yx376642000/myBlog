@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<ol class="breadcrumb">
+    <li><a href="/admin">管理首页</a></li>
+    <li><a href="/admin/myself">我的信息</a></li>
+</ol>
+<h4>我的信息</h4>
+<form class="navbar-form navbar-left" role="search" method="post">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">网名</span>
+            <input type="text" style="width: 150px;" value="{{myself.webName}}" class="form-control" name="webName" aria-describedby="sizing-addon2">
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">姓名</span>
+            <input type="text" style="width: 150px;" value="{{myself.name}}" class="form-control"  name="myName" aria-describedby="sizing-addon2">
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">出生日期</span>
+            <input type="text" style="width: 200px;" value="{{myself.birth}}"   name="birth" aria-describedby="sizing-addon2" class="form-control" >
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">籍贯</span>
+            <input type="text" style="width: 200px;" value="{{myself.address}}" name="address" aria-describedby="sizing-addon2" class="form-control" >
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">现居地址</span>
+            <input type="text" style="width: 200px;" value="{{myself.now}}" name="now" aria-describedby="sizing-addon2" class="form-control" >
+        </div> <br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">工作</span>
+            <input type="text" style="width: 300px;" value="{{myself.job}}" name="job" aria-describedby="sizing-addon2" class="form-control" >
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">喜欢的书</span>
+            <input type="text" style="width: 450px;" value="{{myself.likeBook}}" name="likeBook" aria-describedby="sizing-addon2" class="form-control" >
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">喜欢的音乐</span>
+            <input type="text" style="width: 450px;" value="{{myself.likeMusic}}" name="likeMusic" aria-describedby="sizing-addon2" class="form-control" >
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">个人简介</span>
+            <textarea name="description" cols="150" rows="8" class="form-control" >
+                {{myself.description}}
+            </textarea>
+        </div><br><br>
+        <label >博客信息</label>
+        <br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">域名</span>
+            <input type="text" style="width: 300px;"  value="{{myself.blogAddress}}" name="blogAddress" class="form-control"  aria-describedby="sizing-addon2">
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">时间</span>
+            <input type="text" style="width: 300px;"  value="{{myself.time}}" name="time" class="form-control"aria-describedby="sizing-addon2">
+        </div><br><br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width: 100px">备案号</span>
+            <input type="text" style="width: 300px;" value="{{myself.beian}}" name="beian" aria-describedby="sizing-addon2" class="form-control" >
+        </div>
+
+    </div><br><br>
+    <button type="submit" class="btn btn-default">提交</button>
+</form>
+{% endblock%}

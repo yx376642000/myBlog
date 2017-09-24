@@ -58,7 +58,22 @@
                         <li><a href="/admin/article/add">添加文章</a></li>
                     </ul>
                 </li>
-
+                <li class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的信息 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/myself">我的信息</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/admin/myself/add">添加信息</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">友情链接 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/link">友情链接</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/admin/link/add">添加链接</a></li>
+                    </ul>
+                </li>
                 <li><a href="/admin/comment">评论管理</a></li>
             </ul>
 
@@ -88,7 +103,7 @@
                 url:'/api/user/logout',
                 success:function (result) {
                     if(!result.code){
-                        window.location.href="/index";
+                        window.location.href="/";
                     }
                 }
             })

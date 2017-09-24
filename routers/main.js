@@ -3,6 +3,8 @@ var router = express.Router();
 var Category = require("../models/Category");
 var Article = require("../models/Article");
 var User = require("../models/User");
+var Myself = require("../models/Myself");
+var Link = require("../models/Link");
 
 /*
 * 处理通用数据
@@ -13,9 +15,10 @@ router.use(function (req,res,next) {
        userInfo:req.userInfo,
        categories:[],
        ranks:[],
-       news:[]
+       news:[],
+       links:[]
    };
-   Category.find().then(function (categories) {
+   Category.find().sort({_id:-1}).then(function (categories) {
        data.categories=categories;
    }).then(function () {
        Article.find().limit(5).sort({views:-1}).then(function (ranks) {
@@ -25,6 +28,12 @@ router.use(function (req,res,next) {
    });
     Article.find().limit(5).sort({addTime:-1}).then(function (news) {
         data.news=news;
+    });
+    Myself.find().then(function (rs) {
+        data.beian=rs[0].beian;
+    });
+    Link.find().sort({_id:-1}).then(function (links) {
+       data.links=links;
     });
    next();
 });
@@ -36,53 +45,55 @@ router.get("/",function (req,res,next) {
     data.limit=5;
     data.pages=0;
     data.articles=[];
+    data.category=req.query.category || '';
+    var where = {};
+    if(data.category){
+        where.category=data.category;
+    };
+    Category.findOne({_id:data.category}).then(function (category) {
+        data.category=category;
+    }).then(function () {
+        Article.count().then(function (count) {
+            data.count=count;
+            data.pages = Math.ceil(data.count/data.limit);
+            //取值不能大于pages
+            if (data.page >= data.pages) {
+                data.page = Math.min(data.page,data.pages);
+            }
+            //取值不能小于1
+            if (data.page <= 1) {
+                data.page = Math.max(data.page,1);
+            }
+            var skip = (data.page - 1)*data.limit;
+            return Article.find().limit(data.limit).skip(skip).sort({_id:-1}).populate(["category","user"]);
 
-    Article.count().then(function (count) {
-        data.count=count;
-        data.pages = Math.ceil(data.count/data.limit);
-        //取值不能大于pages
-        if (data.page >= data.pages) {
-            data.page = Math.min(data.page,data.pages);
-        }
-        //取值不能小于1
-        if (data.page <= 1) {
-            data.page = Math.max(data.page,1);
-        }
-        var skip = (data.page - 1)*data.limit;
-        return Article.find().limit(data.limit).skip(skip).sort({_id:-1}).populate(["category","user"]);
-
-    }).then(function (articles) {
-        data.articles=articles;
-        console.log(data);
-        res.render("main/index",data);
+        }).then(function (articles) {
+            data.articles=articles;
+            res.render("main/index",data);
+        });
     });
+
 });
 
 router.get("/about",function (req,res,next) {
-    data.count=0;
-    data.page=Number(req.query.page || 1);
-    data.limit=4;
-    data.pages=0;
-    data.articles=[];
 
-    Article.count().then(function (count) {
-        data.count=count;
-        data.pages = Math.ceil(data.count/data.limit);
-        //取值不能大于pages
-        if (data.page >= data.pages) {
-            data.page = Math.min(data.page,data.pages);
-        }
-        //取值不能小于1
-        if (data.page <= 1) {
-            data.page = Math.max(data.page,1);
-        }
-        var skip = (data.page - 1)*data.limit;
-        return Article.find().limit(data.limit).skip(skip).sort({_id:-1}).populate(["category","user"]);
+    data.category=req.query.category || '';
+    var where = {};
+    if(data.category){
+        where.category=data.category;
+    };
+    Category.findOne({_id:data.category}).then(function (category) {
+        data.category=category;
 
-    }).then(function (articles) {
-        data.articles=articles;
-        res.render("main/about",data);
+    }).then(function () {
+        Myself.find().then(function (myself) {
+            data.myself=myself;
+            res.render("main/about",data);
+
+        })
     });
+
+
 });
 router.get("/knowledge",function (req,res,next) {
     data.count=0;
@@ -95,6 +106,9 @@ router.get("/knowledge",function (req,res,next) {
     if(data.category){
         where.category=data.category;
     }
+    Category.findOne({_id:data.category}).then(function (category) {
+        data.category=category;
+    });
     Article.where(where).count().then(function (count) {
         data.count=count;
         data.pages = Math.ceil(data.count/data.limit);
@@ -125,6 +139,9 @@ router.get("/moodlist",function (req,res,next) {
     if(data.category){
         where.category=data.category;
     }
+    Category.findOne({_id:data.category}).then(function (category) {
+        data.category=category;
+    });
     Article.where(where).count().then(function (count) {
         data.count=count;
         data.pages = Math.ceil(data.count/data.limit);
@@ -156,7 +173,9 @@ router.get("/newlist",function (req,res,next) {
     if(data.category){
         where.category=data.category;
     }
-
+    Category.findOne({_id:data.category}).then(function (category) {
+        data.category=category;
+    });
     Article.where(where).count().then(function (count) {
         data.count=count;
         data.pages = Math.ceil(data.count/data.limit);

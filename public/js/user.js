@@ -13,7 +13,6 @@ $(function () {
             },
             dataType:'json',
             success:function (result) {
-                console.log(result);
             }
         })
     });
@@ -27,7 +26,6 @@ $(function () {
            },
            dataType:'json',
            success:function (result) {
-               console.log(result);
            }
 
        })
