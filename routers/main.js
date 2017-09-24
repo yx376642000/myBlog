@@ -40,39 +40,18 @@ router.use(function (req,res,next) {
 
 router.get("/",function (req,res,next) {
 
-    data.count=0;
-    data.page=Number(req.query.page || 1);
-    data.limit=5;
-    data.pages=0;
     data.articles=[];
-    data.category=req.query.category || '';
-    var where = {};
-    if(data.category){
-        where.category=data.category;
-    };
-    Category.findOne({_id:data.category}).then(function (category) {
-        data.category=category;
-    }).then(function () {
-        Article.count().then(function (count) {
-            data.count=count;
-            data.pages = Math.ceil(data.count/data.limit);
-            //取值不能大于pages
-            if (data.page >= data.pages) {
-                data.page = Math.min(data.page,data.pages);
-            }
-            //取值不能小于1
-            if (data.page <= 1) {
-                data.page = Math.max(data.page,1);
-            }
-            var skip = (data.page - 1)*data.limit;
-            return Article.find().limit(data.limit).skip(skip).sort({_id:-1}).populate(["category","user"]);
+    data.category=req.query.category || '59c746ff7cd53e0ebcc0dc4b';
 
+    Category.find({_id:data.category}).then(function (category) {
+        data.category=category[0];
+
+    }).then(function () {
+        return Article.find().limit(4).sort({_id:-1}).populate(["category","user"]);
         }).then(function (articles) {
             data.articles=articles;
             res.render("main/index",data);
-        });
     });
-
 });
 
 router.get("/about",function (req,res,next) {
@@ -89,7 +68,6 @@ router.get("/about",function (req,res,next) {
         Myself.find().then(function (myself) {
             data.myself=myself;
             res.render("main/about",data);
-
         })
     });
 
