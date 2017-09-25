@@ -41,18 +41,7 @@ router.use(function (req,res,next) {
 router.get("/",function (req,res,next) {
 
     data.articles=[];
-    data.category=req.query.category || '';
-    var where = {};
-    if(data.category){
-        where.category=data.category;
-    };;
-
-    Category.find({_id:data.category}).then(function (category) {
-        data.category=category[0];
-
-    }).then(function () {
-        return Article.find().limit(4).sort({_id:-1}).populate(["category","user"]);
-        }).then(function (articles) {
+    Article.find().limit(4).sort({_id:-1}).populate(["category","user"]).then(function (articles) {
             data.articles=articles;
             res.render("main/index",data);
     });
