@@ -41,7 +41,11 @@ router.use(function (req,res,next) {
 router.get("/",function (req,res,next) {
 
     data.articles=[];
-    data.category=req.query.category || '59c746ff7cd53e0ebcc0dc4b';
+    data.category=req.query.category || '';
+    var where = {};
+    if(data.category){
+        where.category=data.category;
+    };;
 
     Category.find({_id:data.category}).then(function (category) {
         data.category=category[0];
