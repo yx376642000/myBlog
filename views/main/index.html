@@ -85,6 +85,9 @@
 <div class="bloglist left">
 
   {% for article in articles %}
+    
+    {% autoescape false %}
+
   <h3>{{article.title}}</h3>
   <figure><img src="/public/images/001.png"></figure>
   <ul>
@@ -95,8 +98,9 @@
     <span>{{article.addTime|date("Y-m-d H:i:s",-8*60)}}</span>
     <span>作者：{{article.user.username}}</span>
     <span>点击量：{{article.views}}</span>
-
   </p>
+
+    {% endautoescape %}
 
   {% endfor %}
 </div>
