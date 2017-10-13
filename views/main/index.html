@@ -2,9 +2,144 @@
 
 {% block css %}
 <link href="/public/css/index.css" rel="stylesheet">
+<!--<style>-->
+  <!--*{-->
+    <!--margin: 0;-->
+    <!--padding: 0;-->
+  <!--}-->
+  <!--html,body{-->
+    <!--width: 100%;height: 1200px;-->
+    <!--overflow: hidden;-->
+  <!--}-->
+
+  <!--canvas{-->
+    <!--position: absolute;-->
+
+    <!--z-index: -999;-->
+    <!--/*width:800px;-->
+    <!--hegiht:400px;*/-->
+  <!--}-->
+  <!--span{-->
+    <!--color:#fff;-->
+  <!--}-->
+<!--</style>-->
+<!--<script>-->
+    <!--function rnd(n,m){-->
+        <!--return parseInt(Math.random()*(m-n))+n;-->
+    <!--}-->
+    <!--//屏保-->
+    <!--window.onload = function () {-->
+        <!--var oC=document.getElementById('c1');-->
+        <!--var gd=oC.getContext('2d'); //画笔-->
+
+        <!--var winW=document.documentElement.clientWidth;-->
+        <!--var winH=document.documentElement.clientHeight;-->
+
+        <!--oC.width=winW;-->
+        <!--oC.height=winH;-->
+
+        <!--var N=7;//点数量-->
+        <!--var aPoint=[]; //[{x,y,iSpeedX,iSpeedY},{},{}]-->
+        <!--//添加点信息-->
+        <!--for(var i=0; i<N; i++){-->
+            <!--aPoint[i]={-->
+                <!--x:rnd(0,winW),-->
+                <!--y:rnd(0,winH),-->
+                <!--iSpeedX:rnd(-10,10),-->
+                <!--iSpeedY:rnd(-10,10)-->
+            <!--};-->
+        <!--}-->
+
+        <!--var LEN=50; //尾巴个数-->
+        <!--var oldArr=[]; //尾巴数据数组 [[{},{}],[]],保存多个过去式的aPoint-->
+
+
+        <!--//绘制多个点 + 速度变化-->
+        <!--setInterval(function() {-->
+            <!--gd.clearRect(0,0,oC.width,oC.height);-->
+
+            <!--//绘制点-->
+            <!--for (var i = 0; i < N; i++) {-->
+                <!--aPoint[i].x+=aPoint[i].iSpeedX;-->
+                <!--aPoint[i].y+=aPoint[i].iSpeedY;-->
+                <!--//限定-->
+                <!--if(aPoint[i].x<=0){-->
+                    <!--aPoint[i].x=0;-->
+                    <!--aPoint[i].iSpeedX*=-1;-->
+                <!--}-->
+                <!--if(aPoint[i].x>=winW){-->
+                    <!--aPoint[i].x=winW;-->
+                    <!--aPoint[i].iSpeedX*=-1;-->
+                <!--}-->
+                <!--if(aPoint[i].y>=winH){-->
+                    <!--aPoint[i].y=winH;-->
+                    <!--aPoint[i].iSpeedY*=-1;-->
+                <!--}-->
+                <!--if(aPoint[i].y<=0){-->
+                    <!--aPoint[i].y=0;-->
+                    <!--aPoint[i].iSpeedY*=-1;-->
+                <!--}-->
+                <!--drawPoint(aPoint[i]);-->
+            <!--}-->
+
+            <!--//画线-->
+            <!--gd.beginPath();-->
+            <!--gd.strokeStyle='rgba('+ rnd(0,255)+','+ rnd(0,255)+','+ rnd(0,255)+'1)';-->
+            <!--gd.moveTo(aPoint[0].x,aPoint[0].y);-->
+            <!--for(var i=1; i<aPoint.length; i++){-->
+                <!--gd.lineTo(aPoint[i].x, aPoint[i].y);-->
+            <!--}-->
+            <!--gd.closePath();-->
+            <!--gd.stroke();-->
+
+            <!--//绘制尾巴-->
+            <!--var arr=[];//保存aPoint的信息，不含速度-->
+            <!--for(var i=0; i<aPoint.length; i++){//收集aPoint的整体副本-->
+                <!--arr[i]={//把当前点集合收集到arr数组-->
+                    <!--x:aPoint[i].x,-->
+                    <!--y:aPoint[i].y-->
+                <!--};-->
+            <!--}-->
+
+            <!--oldArr.push(arr);//收集一个,就丢到尾巴对象里面-->
+
+            <!--if(oldArr.length>LEN){ //超过尾巴总量，就弹掉一个-->
+                <!--oldArr.shift();-->
+            <!--}-->
+
+            <!--for(var i=0; i<oldArr.length; i++){//根据尾巴个数-->
+                <!--gd.beginPath();-->
+                <!--var opacity=i/oldArr.length;//靠后的尾巴透明度调整-->
+                <!--gd.strokeStyle='rgba(1,255,125,'+opacity+')';-->
+                <!--gd.moveTo(oldArr[i][0].x, oldArr[i][0].y);//移动到第i个尾巴第0个点-->
+
+                <!--for(var j=0; j<oldArr[i].length; j++){-->
+                    <!--gd.lineTo(oldArr[i][j].x, oldArr[i][j].y);//连线到第i个尾巴第j个点-->
+                <!--}-->
+                <!--gd.closePath();-->
+                <!--gd.stroke();-->
+            <!--}-->
+
+            <!--//定时器结束-->
+        <!--},16);-->
+
+
+        <!--function drawPoint(p){-->
+            <!--var pW=1;-->
+            <!--var pH=1;-->
+            <!--gd.fillStyle='#fff';-->
+            <!--gd.fillRect(p.x-pW/2, p.y-pH/2,pW,pH);-->
+        <!--}-->
+
+
+    <!--};-->
+<!--</script>-->
 {% endblock %}
 
 {% block banner %}
+<!--<canvas  id="c1" width="100%" height="100%">-->
+  <!--<span>您的浏览器版本太低</span>-->
+<!--</canvas>-->
 <div class="banner">
   <section class="box">
     <ul class="texts">

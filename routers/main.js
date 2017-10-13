@@ -82,6 +82,7 @@ router.get("/knowledge",function (req,res,next) {
     });
     Article.where(where).count().then(function (count) {
         data.count=count;
+        console.log(data.count);
         data.pages = Math.ceil(data.count/data.limit);
         //取值不能大于pages
         if (data.page >= data.pages) {
@@ -97,6 +98,7 @@ router.get("/knowledge",function (req,res,next) {
     }).then(function (articles) {
         data.articles=articles;
         res.render("main/knowledge",data);
+        console.log(data);
     });
 });
 router.get("/moodlist",function (req,res,next) {
